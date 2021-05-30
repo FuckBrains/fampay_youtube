@@ -1,8 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
-
 class Videos(models.Model):
     video_id = models.CharField(max_length=100, blank=True, null=True)
     channel_id = models.CharField(max_length=100, blank=True, null=True)
