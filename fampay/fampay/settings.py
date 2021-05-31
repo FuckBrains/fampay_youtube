@@ -12,21 +12,25 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+import environ
+
+root = environ.Path(__file__) - 3  # get root of the project
+env = environ.Env()
+environ.Env.read_env()  # reading .env file
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1d9(9o0hqd6gj)u6-%4_#b*&_t9!d_1q*i0qx_%(u5up#p51f*'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -71,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fampay.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -87,15 +90,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'youtube',
         'USER': 'admin',
-        'PASSWORD': 's0h1c0a8',
-        'HOST': 'database-1.cr43jgfrat5u.ap-south-1.rds.amazonaws.com',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'PASSWORD': env.str('DB_PASSWORD'),
+        'HOST': env.str('DB_HOST'),
+        'PORT': env.str('DB_PORT'),
         'OPTIONS': {
             'charset': 'utf8mb4'  # This is the important line
         }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -115,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -128,7 +129,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
